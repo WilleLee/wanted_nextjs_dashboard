@@ -32,7 +32,7 @@ export type State = {
   };
 };
 
-export async function createInvoice(_: State, formData: FormData) {
+export async function createInvoice(prevState: State, formData: FormData) {
   try {
     const validatedFields = CreateInvoice.safeParse({
       customerId: formData.get('customerId'),
@@ -42,8 +42,8 @@ export async function createInvoice(_: State, formData: FormData) {
 
     if (!validatedFields.success) {
       return {
-        message: validatedFields.error.flatten().fieldErrors,
-        errors: 'Missing Fields. Failed to Create Invoice.',
+        errors: validatedFields.error.flatten().fieldErrors,
+        message: 'Missing Fields. Failed to Create Invoice.',
       };
     }
     const { customerId, amount, status } = validatedFields.data;
